@@ -1,0 +1,22 @@
+{
+  "name": "fyyur",
+  "version": "1.0.0",
+  "description": "Anthony Rizzotto's Fyyur project submission for Udacity Full-Stack nano degree program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adjustyourtone/fyyurproject.git"
+  },
+  "author": "Anthony Rizzotto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adjustyourtone/fyyurproject/issues"
+  },
+  "homepage": "https://github.com/adjustyourtone/fyyurproject#readme",
+  "dependencies": {
+    "bootstrap": "^3.4.1"
+  }
+}
