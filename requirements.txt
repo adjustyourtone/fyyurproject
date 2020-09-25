@@ -3,4 +3,7 @@ python-dateutil==2.6.0
 flask-moment
 flask-wtf
 flask-sqlalchemy
+
+#also installed
 flask-migrate
+psycopg2

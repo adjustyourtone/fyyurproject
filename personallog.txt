@@ -1,0 +1,7 @@
+9/25 
+- Issue migrating DB. KeyError: 'migrate' when running flask   db init
+    - Must instantiate a "Migrate" object that takes app and db as parameters. 
+
+- Need to create Show and Artist models? Artist is already created.
+    - data1(L.136) shows missing Venue columns: "seeking_talent" and "seeking_description"
+    -A show model would need some sort of ID
