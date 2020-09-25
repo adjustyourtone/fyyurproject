@@ -25,7 +25,7 @@ db = SQLAlchemy(app)
 #Instantiate a Migrate object
 migrate = Migrate(app, db)
 
-# TODO: connect to a local postgresql database
+# TODO: connect to a local postgresql database - done
 
 #----------------------------------------------------------------------------#
 # Models.
@@ -43,7 +43,13 @@ class Venue(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
+      #Add a seeking_talent(bool) and seeking_description. 
+    seeking_talent= db.Column(db.Boolean(), nullable=False, default=False)
+    seeking_description = db.Column(db.String(500))
+      #should have a relationship with shows(to pull artists who are playing there)
+    shows = db.relationship('Show', backref='venue', lazy=True)
+
+    # TODO: implement any missing fields, as a database migration using Flask-Migrate -done
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
@@ -57,9 +63,22 @@ class Artist(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
+      #create a seeking_venue(bool) and seeking_description
+    seeking_venue = db.Column(db.Boolean(), nullable=False, default=False)
+    seeking_description = db.Column(db.String(500))
+      #create relationship with Show model (to show all the shows they are playing and at which venue)
+    shows = db.relationship('Show', backref='artist', lazy=True)
 
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
+    # TODO: implement any missing fields, as a database migration using Flask-Migrate -done
+
+# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration. -done
+
+class Show(db.Model):
+  __tablename__ = 'Show'
+  id = db.Column(db.Integer, primary_key=True)
+  venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'), nullable=False)
+  artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'), nullable=False)
+  start_time = db.Column(db.DateTime, nullable=False)
 
 #----------------------------------------------------------------------------#
 # Filters.

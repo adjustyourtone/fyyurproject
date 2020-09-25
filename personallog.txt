@@ -3,5 +3,19 @@
     - Must instantiate a "Migrate" object that takes app and db as parameters. 
 
 - Need to create Show and Artist models? Artist is already created.
-    - data1(L.136) shows missing Venue columns: "seeking_talent" and "seeking_description"
-    -A show model would need some sort of ID
+    - data1(L.136) Missing Venue columns: "seeking_talent(boolean)" and "seeking_description (string)". 'artists' is a relationship to 'Artist'
+
+    - data(L.298) Missing Artist column: seeking_venue(boolean) and seeking_description(string)
+
+    -A Show model would need some sort of show ID, an artist_id that's linked to Artist.id and a venue_id linked to Venue.id. (L.153) includes a "start_time" field. Think of it as a 'Fact Table'
+    class Show:
+    tablename = Show
+    id = INT primarykey
+    venue_id = INT foreignkey=('Venue.id')not null
+    artist_id = INT foreignkey="('Arist.id') not null
+    start_time = DB.DateTime, not null
+
+        Relationships: 
+            Artists and Venues have no direct relationship. All relationships should be pooled from the Show table.
+
+- Created and migrated DB relationships.
