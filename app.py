@@ -40,7 +40,9 @@ class Venue(db.Model):
     state = db.Column(db.String(120))
     address = db.Column(db.String(120))
     phone = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
+    #insert 'genres' column
+    genres = db.Column(db.String(), nullable=False)
+    image_link = db.Column(db.String(240))
     facebook_link = db.Column(db.String(120))
 
       #Add a seeking_talent(bool) and seeking_description. 
@@ -110,28 +112,43 @@ def index():
 def venues():
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
-  data=[{
-    "city": "San Francisco",
-    "state": "CA",
-    "venues": [{
-      "id": 1,
-      "name": "The Musical Hop",
-      "num_upcoming_shows": 0,
+    # all_areas = (
+    #     Venue.query.with_entities(Venue.city, Venue.state)
+    #     .group_by(Venue.city, Venue.state)
+    #     .all()
+    # )
+    # data = []
+    # for area in all_areas:
+    #     venues_in_city = (
+    #         Venue.query.filter(Venue.city == area[0])
+    #         .filter(Venue.state == area[1])
+    #         .all()
+    #     )
+    #     data.append({"city": area.city, "state": area.state, "venues": venues_in_city})
+    data=[{
+      "city": "San Francisco",
+      "state": "CA",
+      "venues": [{
+        "id": 1,
+        "name": "The Musical Hop",
+        "num_upcoming_shows": 0,
+      }, {
+        "id": 3,
+        "name": "Park Square Live Music & Coffee",
+        "num_upcoming_shows": 1,
+      }]
     }, {
-      "id": 3,
-      "name": "Park Square Live Music & Coffee",
-      "num_upcoming_shows": 1,
+      "city": "New York",
+      "state": "NY",
+      "venues": [{
+        "id": 2,
+        "name": "The Dueling Pianos Bar",
+        "num_upcoming_shows": 0,
+      }]
     }]
-  }, {
-    "city": "New York",
-    "state": "NY",
-    "venues": [{
-      "id": 2,
-      "name": "The Dueling Pianos Bar",
-      "num_upcoming_shows": 0,
-    }]
-  }]
-  return render_template('pages/venues.html', areas=data);
+
+    
+    return render_template('pages/venues.html', areas=data);
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
@@ -244,13 +261,43 @@ def create_venue_form():
 def create_venue_submission():
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
+    response = {}
+    error = False
+    try:
+        name = request.form.get("name")
+        city = request.form.get("city")
+        state = request.form.get("state")
+        address = request.form.get("address")
+        phone = request.form.get("phone")
+        facebook_link = request.form.get("facebook_link")
+        genres = request.form.getlist("genres")
+        venue = Venue(
+            name=name,
+            city=city,
+            state=state,
+            address=address,
+            phone=phone,
+            genres=genres,
+            facebook_link=facebook_link,
+        )
+        response["name"] = venue.name
+        db.session.add(venue)
+        db.session.commit()
+    except:
+        error = True
+        db.session.rollback()
+    finally:
+        db.session.close()
+        if error == False:
+              # on successful db insert, flash success
+              flash('Venue ' + request.form['name'] + ' was successfully listed!')
+        else:
+            # TODO: on unsuccessful db insert, flash an error instead.
+            # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
+            # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
+            flash("An error occurred. Venue " + request.form["name"] + " could not be listed.")
 
-  # on successful db insert, flash success
-  flash('Venue ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
-  # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
-  return render_template('pages/home.html')
+    return render_template('pages/home.html')
 
 @app.route('/venues/<venue_id>', methods=['DELETE'])
 def delete_venue(venue_id):

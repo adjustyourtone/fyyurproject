@@ -19,3 +19,12 @@
             Artists and Venues have no direct relationship. All relationships should be pooled from the Show table.
 
 - Created and migrated DB relationships.
+
+
+9/26 - Should complete the "create artist and venue forms first" then enter data through form.
+    - the new venue form is all messed up from the started code....
+    - fixed New Venue & New Artist Form - unnecessary ID's - now route to correct forms.
+    -added 'Swing' as a genre
+    - MA missing from States
+
+    **form submission is working, but image link, seeking_description don't work and seeking_talent is always F no matter what...
