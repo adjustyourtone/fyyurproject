@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
-
+import sys
 import json
 import dateutil.parser
 import babel
@@ -30,57 +30,8 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 # Models.
 #----------------------------------------------------------------------------#
+from models import *
 
-class Venue(db.Model):
-    __tablename__ = 'Venue'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    address = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
-    #insert 'genres' column
-    genres = db.Column(db.String(), nullable=False)
-    image_link = db.Column(db.String(240))
-    facebook_link = db.Column(db.String(120))
-
-      #Add a seeking_talent(bool) and seeking_description. 
-    seeking_talent= db.Column(db.Boolean(), nullable=False, default=False)
-    seeking_description = db.Column(db.String(500))
-      #should have a relationship with shows(to pull artists who are playing there)
-    shows = db.relationship('Show', backref='venue', lazy=True)
-
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate -done
-
-class Artist(db.Model):
-    __tablename__ = 'Artist'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
-    genres = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
-
-      #create a seeking_venue(bool) and seeking_description
-    seeking_venue = db.Column(db.Boolean(), nullable=False, default=False)
-    seeking_description = db.Column(db.String(500))
-      #create relationship with Show model (to show all the shows they are playing and at which venue)
-    shows = db.relationship('Show', backref='artist', lazy=True)
-
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate -done
-
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration. -done
-
-class Show(db.Model):
-  __tablename__ = 'Show'
-  id = db.Column(db.Integer, primary_key=True)
-  venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'), nullable=False)
-  artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'), nullable=False)
-  start_time = db.Column(db.DateTime, nullable=False)
 
 #----------------------------------------------------------------------------#
 # Filters.
@@ -269,16 +220,22 @@ def create_venue_submission():
         state = request.form.get("state")
         address = request.form.get("address")
         phone = request.form.get("phone")
+        image_link = request.form['image_link']
         facebook_link = request.form.get("facebook_link")
         genres = request.form.getlist("genres")
+        seeking_talent = True if 'seeking_talent' in request.form else False 
+        seeking_description = request.form['seeking_description']
         venue = Venue(
             name=name,
             city=city,
             state=state,
             address=address,
             phone=phone,
+            image_link=image_link,
             genres=genres,
             facebook_link=facebook_link,
+            seeking_talent=seeking_talent,
+            seeking_description=seeking_description
         )
         response["name"] = venue.name
         db.session.add(venue)
@@ -286,6 +243,7 @@ def create_venue_submission():
     except:
         error = True
         db.session.rollback()
+        print(sys.exc_info())
     finally:
         db.session.close()
         if error == False:
@@ -296,7 +254,7 @@ def create_venue_submission():
             # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
             # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
             flash("An error occurred. Venue " + request.form["name"] + " could not be listed.")
-
+            print(sys.exc_info())
     return render_template('pages/home.html')
 
 @app.route('/venues/<venue_id>', methods=['DELETE'])
