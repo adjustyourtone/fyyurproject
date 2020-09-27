@@ -223,6 +223,7 @@ def create_venue_submission():
         image_link = request.form['image_link']
         facebook_link = request.form.get("facebook_link")
         genres = request.form.getlist("genres")
+          # Created an if statement to accept True/False (wasn't working otherwise)
         seeking_talent = True if 'seeking_talent' in request.form else False 
         seeking_description = request.form['seeking_description']
         venue = Venue(

@@ -27,4 +27,6 @@
     -added 'Swing' as a genre
     - MA missing from States
 
-    **form submission is working, but image link, seeking_description don't work and seeking_talent is always F no matter what...
+    **form submission is working, but seeking_talent is always F no matter what...
+
+9/27 - fixed seeking talent. Needed to create an if statment to get the boolean to work right.
