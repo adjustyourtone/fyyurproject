@@ -33,3 +33,4 @@
 9/28 - corrected Create Artist Form and added missing fields as nec. 
         - Phone validation is not working for Venue or Artist Create.
         - Create artist is now working with all correct fields
+        - Incorporated display all venues

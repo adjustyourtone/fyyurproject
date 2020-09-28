@@ -62,43 +62,27 @@ def index():
 @app.route('/venues')
 def venues():
   # TODO: replace with real venues data.
-  #       num_shows should be aggregated based on number of upcoming shows per venue.
-    # all_areas = (
-    #     Venue.query.with_entities(Venue.city, Venue.state)
-    #     .group_by(Venue.city, Venue.state)
-    #     .all()
-    # )
-    # data = []
-    # for area in all_areas:
-    #     venues_in_city = (
-    #         Venue.query.filter(Venue.city == area[0])
-    #         .filter(Venue.state == area[1])
-    #         .all()
-    #     )
-    #     data.append({"city": area.city, "state": area.state, "venues": venues_in_city})
-    data=[{
-      "city": "San Francisco",
-      "state": "CA",
-      "venues": [{
-        "id": 1,
-        "name": "The Musical Hop",
-        "num_upcoming_shows": 0,
-      }, {
-        "id": 3,
-        "name": "Park Square Live Music & Coffee",
-        "num_upcoming_shows": 1,
-      }]
-    }, {
-      "city": "New York",
-      "state": "NY",
-      "venues": [{
-        "id": 2,
-        "name": "The Dueling Pianos Bar",
-        "num_upcoming_shows": 0,
-      }]
-    }]
+  #       num_shows should be aggregated based on number of upcoming shows per venue. - Done
 
-    
+  # write a query that selects all venue
+    all_venues = (
+        Venue.query.with_entities(Venue.city, Venue.state)
+        .group_by(Venue.city, Venue.state)
+        .all()
+    )
+
+    data = []
+    # display all venues by city/state and name only.
+    for venue in all_venues:
+        venues_in_city = (
+            Venue.query.filter(Venue.city == venue[0])
+            .filter(Venue.state == venue[1])
+            .all()
+        )
+        data.append({"city": venue.city, "state": venue.state, "venues": venues_in_city})
+
+      # removed dummy code for neatness
+
     return render_template('pages/venues.html', areas=data);
 
 @app.route('/venues/search', methods=['POST'])
@@ -443,7 +427,7 @@ def create_artist_form():
 def create_artist_submission():
   # called upon submitting the new artist listing form
   # TODO: insert form data as a new Artists record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
+  # TODO: modify data to be the data object returned from db insertion - Done
     response = {}
     error = False
     try:
