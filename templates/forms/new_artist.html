@@ -28,11 +28,16 @@
         <small>Ctrl+Click to select multiple</small>
         {{ form.genres(class_ = 'form-control', placeholder='Genres',autofocus = true) }}
       </div>
+      <!-- added in missing field forms -->
       <div class="form-group">
-          <label for="genres">Facebook Link</label>
-          {{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
-        </div>
-      <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+        <label for="website">Website Link</label>
+        {{ form.website_link(class_ = 'form-control', placeholder='https://', autofocus = true) }}
+      </div>
+      <div class="form-group">
+          <label for="facebook">Facebook Link</label>
+          {{ form.facebook_link(class_ = 'form-control', placeholder='https://', autofocus = true) }}
+      </div>
+      <input type="submit" value="Become an Artist" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
 {% endblock %}

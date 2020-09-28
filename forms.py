@@ -45,7 +45,8 @@ class VenueForm(Form):
             ('KS', 'KS'),
             ('KY', 'KY'),
             ('LA', 'LA'),
-            ('MA', 'MA'),
+            # Added in MA - it was missing
+            ('MA', 'MA'), 
             ('ME', 'ME'),
             ('MT', 'MT'),
             ('NE', 'NE'),
@@ -89,7 +90,7 @@ class VenueForm(Form):
     image_link = StringField(
         'image_link'
     )
-        # TODO implement enum restriction - Done
+        # TODO implement enum restriction
     genreTypes = [
         ("Alternative", "Alternative"),
         ("Blues", "Blues"),
@@ -109,6 +110,8 @@ class VenueForm(Form):
         ("Reggae", "Reggae"),
         ("Rock n Roll", "Rock n Roll"),
         ("Soul", "Soul"),
+        #added in Swing - it was missing
+        ("Swing", "Swing"),
         ("Other", "Other"),
     ]
     genres = SelectMultipleField(
@@ -222,8 +225,13 @@ class ArtistForm(Form):
             ('Reggae', 'Reggae'),
             ('Rock n Roll', 'Rock n Roll'),
             ('Soul', 'Soul'),
+            ("Swing", "Swing"),
             ('Other', 'Other'),
         ]
+    )
+    # Artists should provide website AND facebook link: add website field
+    website_link = StringField(
+        'website_link', validators=[URL()]
     )
     facebook_link = StringField(
         # TODO implement enum restriction
