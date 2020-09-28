@@ -28,14 +28,27 @@
         <small>Ctrl+Click to select multiple</small>
         {{ form.genres(class_ = 'form-control', placeholder='Genres',autofocus = true) }}
       </div>
-      <!-- added in missing field forms -->
+      <!-- added in missing field forms: Image, Website, Seeking V and D -->
+      <div class="form-group">
+        <label for="image_link">Image Link</label>
+        {{ form.image_link(class_ = 'form-control', placeholder='https://', autofocus = true) }}
+      </div>
       <div class="form-group">
         <label for="website">Website Link</label>
-        {{ form.website_link(class_ = 'form-control', placeholder='https://', autofocus = true) }}
+        {{ form.website(class_ = 'form-control', placeholder='https://', autofocus = true) }}
       </div>
+
       <div class="form-group">
           <label for="facebook">Facebook Link</label>
           {{ form.facebook_link(class_ = 'form-control', placeholder='https://', autofocus = true) }}
+      </div>
+      <div class="form-group">
+        <label for="seeking_venue">Click here if you're searching for a Venue!</label>
+        {{ form.seeking_venue(class_ = 'form-check-input', placeholder='Yes', autofocus = true) }}
+      </div>
+      <div class="form-group">
+          <label for="seeking_description">What are you looking for in a Venue?</label>
+          {{ form.seeking_description(class_ = 'form-control', placeholder='What your looking for in 500 words or less', autofocus = true) }}
       </div>
       <input type="submit" value="Become an Artist" class="btn btn-primary btn-lg btn-block">
     </form>

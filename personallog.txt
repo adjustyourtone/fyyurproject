@@ -30,3 +30,6 @@
     **form submission is working, but seeking_talent is always F no matter what...
 
 9/27 - fixed seeking talent. Needed to create an if statment to get the boolean to work right.
+9/28 - corrected Create Artist Form and added missing fields as nec. 
+        - Phone validation is not working for Venue or Artist Create.
+        - Create artist is now working with all correct fields
