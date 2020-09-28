@@ -72,14 +72,14 @@ def venues():
     )
 
     data = []
-    # display all venues by city/state and name only.
-    for venue in all_venues:
+    # display all venues by city/state and name only. Call 'area' per venues.html
+    for area in all_venues:
         venues_in_city = (
-            Venue.query.filter(Venue.city == venue[0])
-            .filter(Venue.state == venue[1])
+            Venue.query.filter(Venue.city == area[0])
+            .filter(Venue.state == area[1])
             .all()
         )
-        data.append({"city": venue.city, "state": venue.state, "venues": venues_in_city})
+        data.append({"city": area.city, "state": area.state, "venues": venues_in_city})
 
       # removed dummy code for neatness
 
@@ -256,16 +256,10 @@ def delete_venue(venue_id):
 @app.route('/artists')
 def artists():
   # TODO: replace with real data returned from querying the database
-  data=[{
-    "id": 4,
-    "name": "Guns N Petals",
-  }, {
-    "id": 5,
-    "name": "Matt Quevedo",
-  }, {
-    "id": 6,
-    "name": "The Wild Sax Band",
-  }]
+
+  # write a query to get all artists
+  data = db.session.query(Artist).all()
+
   return render_template('pages/artists.html', artists=data)
 
 @app.route('/artists/search', methods=['POST'])

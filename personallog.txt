@@ -34,3 +34,4 @@
         - Phone validation is not working for Venue or Artist Create.
         - Create artist is now working with all correct fields
         - Incorporated display all venues
+        - Incorporated display all artists
