@@ -16,7 +16,7 @@ class Venue(db.Model):
     address = db.Column(db.String(120))
     phone = db.Column(db.String(120))
     #insert 'genres' column
-    genres = db.Column(db.String(), nullable=False)
+    genres = db.Column(db.ARRAY(db.String))
     image_link = db.Column(db.String(240))
     facebook_link = db.Column(db.String(120))
 

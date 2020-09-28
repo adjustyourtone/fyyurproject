@@ -30,9 +30,13 @@
     **form submission is working, but seeking_talent is always F no matter what...
 
 9/27 - fixed seeking talent. Needed to create an if statment to get the boolean to work right.
-9/28 - corrected Create Artist Form and added missing fields as nec. 
-        - Phone validation is not working for Venue or Artist Create.
+9/28 - corrected Create Artist Form and added missing fields as nec.
         - Create artist is now working with all correct fields
         - Incorporated display all venues
         - Incorporated display all artists
-        - Built out unique artist page - simple queries!
+        - Built out unique artist page 
+
+
+TODO:
+- Venue Genres display as strings while artist genres don't. 
+- Phone validation doesn't work
