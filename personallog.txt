@@ -35,3 +35,4 @@
         - Create artist is now working with all correct fields
         - Incorporated display all venues
         - Incorporated display all artists
+        - Built out unique artist page - simple queries!
