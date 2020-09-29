@@ -35,12 +35,13 @@
         - Incorporated display all venues
         - Incorporated display all artists
         - Built out unique artist page 
-
+        - Finished schedule shows
+        - finished show all 'shows'
 
 TODO:
 - Venue Genres display as strings while artist genres don't. 
 - Phone validation doesn't work
-- Build out List Show Form
+- Upcoming Shows and Past shows are not working
 - Incorporate display shows on Artist and Venue Page
 - All search functions
 - Edit Artist and Venue functions
