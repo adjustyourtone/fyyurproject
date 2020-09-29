@@ -212,50 +212,45 @@ def show_artist(artist_id):
   # TODO: replace with real artist data - done
   # TODO write a query that produces upcoming shows, past shows
     # Create an artist page: 1)query all data from Artist by unique id
-    artist_query = db.session.query(Artist).get(artist_id)
+    artist = db.session.query(Artist).filter(Artist.id == artist_id).one()
 
-    if not artist_query: 
-      return render_template('errors/404.html')
-
-    past_shows_query = db.session.query(Show).join(Venue).filter(Show.artist_id==artist_id).filter(Show.start_time>datetime.now()).all()
+    list_shows = db.session.query(Show).filter(Show.artist_id == artist_id)
     past_shows = []
+    upcoming_shows = []
 
-    for show in past_shows_query:
-      past_shows.append({
-        "venue_id": show.venue_id,
-        "venue_name": show.venue.name,
-        "artist_image_link": show.venue.image_link,
-        "start_time": show.start_time.strftime('%Y-%m-%d %H:%M:%S')
-      })
+    for show in list_shows:
+        venue = db.session.query(Venue.name, Venue.image_link).filter(Venue.id == show.venue_id).one()
 
-    upcoming_shows = db.session.query(Show).join(Venue).filter(Show.artist_id==artist_id).filter(Show.start_time>datetime.now()).all()
-    # upcoming_shows = []
+        show_add = {
+            "venue_id": show.venue_id,
+            "venue_name": venue.name,
+            "venue_image_link": venue.image_link,
+            "start_time": show.start_time.strftime('%m/%d/%Y')
+            }
 
-    for show in upcoming_shows:
-      upcoming_shows.append({
-        "venue_id": show.venue_id,
-        "venue_name": show.venue.name,
-        "artist_image_link": show.venue.image_link,
-        "start_time": show.start_time.strftime('%Y-%m-%d %H:%M:%S')
-      })
-
+        if (show.start_time < datetime.now()):
+            #print(past_shows, file=sys.stderr)
+            past_shows.append(show_add)
+        else:
+            print(show_add, file=sys.stderr)
+            upcoming_shows.append(show_add)
 
     data = {
-      "id": artist_query.id,
-      "name": artist_query.name,
-      "genres": artist_query.genres,
-      "city": artist_query.city,
-      "state": artist_query.state,
-      "phone": artist_query.phone,
-      "website": artist_query.website,
-      "facebook_link": artist_query.facebook_link,
-      "seeking_venue": artist_query.seeking_venue,
-      "seeking_description": artist_query.seeking_description,
-      "image_link": artist_query.image_link,
-      "past_shows": past_shows,
-      "upcoming_shows": upcoming_shows,
-      "past_shows_count": len(past_shows),
-      "upcoming_shows_count": len(upcoming_shows),
+        "id": artist.id,
+        "name": artist.name,
+        "genres": artist.genres,
+        "city": artist.city,
+        "state": artist.state,
+        "phone": artist.phone,
+        "website": artist.website,
+        "facebook_link": artist.facebook_link,
+        "seeking_venue": artist.seeking_venue,
+        "seeking_description": artist.seeking_description,
+        "image_link": artist.image_link,
+        "past_shows": past_shows,
+        "upcoming_shows": upcoming_shows,
+        "past_shows_count": len(past_shows),
+        "upcoming_shows_count": len(upcoming_shows),
     }
 
     return render_template('pages/show_artist.html', artist=data)

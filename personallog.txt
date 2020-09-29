@@ -37,11 +37,11 @@
         - Built out unique artist page 
         - Finished schedule shows
         - finished show all 'shows'
+        - fixed show's not showing. Was not properly querying the Venue model.
 
 TODO:
 - Venue Genres display as strings while artist genres don't. 
 - Phone validation doesn't work
-- Upcoming Shows and Past shows are not working
 - Incorporate display shows on Artist and Venue Page
 - All search functions
 - Edit Artist and Venue functions
