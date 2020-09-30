@@ -1,6 +1,7 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Venue Search{% endblock %}
 {% block content %}
+
 <div class="row">
 	<div class="col-sm-6">
 		<h1 class="monospace">
@@ -29,6 +30,8 @@
 		<p>
 			<i class="fab fa-facebook-f"></i> {% if venue.facebook_link %}<a href="{{ venue.facebook_link }}" target="_blank">{{ venue.facebook_link }}</a>{% else %}No Facebook Link{% endif %}
 		</p>
+		<!-- Add an edit Venue Button -->
+		<a href="/venues/{{ venue.id }}/edit" class="btn btn-primary " role="button">Edit Venue</a><br>
 
 		{% if venue.seeking_talent %}
 		<div class="seeking">
@@ -42,10 +45,6 @@
 			<i class="fas fa-moon"></i> Not currently seeking talent
 		</p>
 		{% endif %}
-		<!-- Add an edit Venue Button -->
-		<div class="container mt-3">
-			<a href="/venues/{{ venue.id }}/edit" class="btn btn-primary " role="button">Edit Venue</a>
-		</div>
 	</div>
 	
 	<div class="col-sm-6">
@@ -82,20 +81,19 @@
 </section>
 <div class="container">
 	<!-- create a delete button -->
-	<button class="delete-venue btn btn-danger" data-id="{{ venue.id }}" class="btn btn-danger btn-sm">Permanantly Delete Venue</button>
+    <button id="delete-button" class="btn btn-danger" data-id="{{ venue.id }}">Permenently Delete Venue</button>
 </div>
 
+<script>
+	const deleteBtn = document.getElementById('delete-button');
+	deleteBtn.onclick = function(evt) {
+		console.log('click');
+		const venueId = evt.target.dataset['id'];
+		fetch('/venues/' + venueId, {
+			method: 'DELETE'
+		})
+		.then(() => window.location = '/')
+	}
+</script>
 {% endblock %}
 
-<script>
-const deleteBtns = document.querySelectorAll('.delete-venue');
-  for (let i = 0; i < deleteBtns.length; i++) {
-    const dltBtn = deleteBtns[i];
-    dltBtn.onclick = function(e) {
-      const venueID = e.target.dataset['id'];
-      fetch('/venues/' + venueID, {
-        method: 'DELETE'
-      });
-    }
-  }
-</script>
