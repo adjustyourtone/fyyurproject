@@ -504,8 +504,6 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
   # called upon submitting the new artist listing form
-  # TODO: insert form data as a new Artists record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion - Done
     response = {}
     error = False
     try:
@@ -545,13 +543,9 @@ def create_artist_submission():
               # on successful db insert, flash success
               flash('Artist ' + request.form['name'] + ' was successfully listed!')
         else:
-            # TODO: on unsuccessful db insert, flash an error instead.
-            # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
-            # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
             flash("An error occurred. Artist " + request.form["name"] + " could not be listed.")
             print(sys.exc_info())
-  
-          # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
+
     return render_template('pages/home.html')
 
 
@@ -560,9 +554,7 @@ def create_artist_submission():
 @app.route('/shows')
 def shows():
   # displays list of shows at /shows - done
-  # TODO: replace with real venues data.
-  #       num_shows should be aggregated based on number of upcoming shows per venue.
-    #Query shows database and do a join with Venue and Artist
+  #Query shows database and do a join with Venue and Artist
     
     get_shows = db.session.query(Show).join(Venue).join(Artist).all()
     data = []
@@ -587,7 +579,6 @@ def create_shows():
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
   # called to create new shows in the db, upon submitting new show listing form
-  # TODO: insert form data as a new Show record in the db, instead - done
     error = False
     try: 
       artist_id = request.form['artist_id']
