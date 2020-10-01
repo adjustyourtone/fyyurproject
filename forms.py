@@ -97,7 +97,7 @@ class VenueForm(Form):
     website = StringField(
     'website', validators=[URL()]
     )
-        # TODO implement enum restriction
+
     genreTypes = [
         ("Alternative", "Alternative"),
         ("Blues", "Blues"),
@@ -204,44 +204,46 @@ class ArtistForm(Form):
         ]
     )
     phone = StringField(
-        # TODO implement validation logic for phone - Done
         'phone', validators=[DataRequired()]
     )
     image_link = StringField(
         'image_link'
     )
+    genreTypes = [
+        ("Alternative", "Alternative"),
+        ("Blues", "Blues"),
+        ("Classical", "Classical"),
+        ("Country", "Country"),
+        ("Electronic", "Electronic"),
+        ("Folk", "Folk"),
+        ("Funk", "Funk"),
+        ("Hip-Hop", "Hip-Hop"),
+        ("Heavy Metal", "Heavy Metal"),
+        ("Instrumental", "Instrumental"),
+        ("Jazz", "Jazz"),
+        ("Musical Theatre", "Musical Theatre"),
+        ("Pop", "Pop"),
+        ("Punk", "Punk"),
+        ("R&B", "R&B"),
+        ("Reggae", "Reggae"),
+        ("Rock n Roll", "Rock n Roll"),
+        ("Soul", "Soul"),
+        #added in Swing - it was missing
+        ("Swing", "Swing"),
+        ("Other", "Other"),
+    ]
     genres = SelectMultipleField(
-        # TODO implement enum restriction
-        'genres', validators=[DataRequired()],
-        choices=[
-            ('Alternative', 'Alternative'),
-            ('Blues', 'Blues'),
-            ('Classical', 'Classical'),
-            ('Country', 'Country'),
-            ('Electronic', 'Electronic'),
-            ('Folk', 'Folk'),
-            ('Funk', 'Funk'),
-            ('Hip-Hop', 'Hip-Hop'),
-            ('Heavy Metal', 'Heavy Metal'),
-            ('Instrumental', 'Instrumental'),
-            ('Jazz', 'Jazz'),
-            ('Musical Theatre', 'Musical Theatre'),
-            ('Pop', 'Pop'),
-            ('Punk', 'Punk'),
-            ('R&B', 'R&B'),
-            ('Reggae', 'Reggae'),
-            ('Rock n Roll', 'Rock n Roll'),
-            ('Soul', 'Soul'),
-            ("Swing", "Swing"),
-            ('Other', 'Other'),
-        ]
+        'genres', validators=[
+            DataRequired(), 
+            AnyOf(genreTypes)
+            ], 
+            choices=genreTypes
     )
     # Artists should provide website AND facebook link: add website field
     website = StringField(
         'website', validators=[URL()]
     )
     facebook_link = StringField(
-        # TODO implement enum restriction
         'facebook_link', validators=[URL()]
     )
     seeking_venue = BooleanField(
@@ -251,4 +253,3 @@ class ArtistForm(Form):
         'seeking_description'
     )
 
-# TODO IMPLEMENT NEW ARTIST FORM AND NEW SHOW FORM (there is already a new artist form. and a new Show Form....)
