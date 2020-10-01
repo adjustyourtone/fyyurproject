@@ -117,12 +117,47 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-  # TODO: replace with real venue data from the venues table, using venue_id - Done
-    
     #write a query that pulls all venue information by ID
-    data = db.session.query(Venue).get(venue_id)
+    venue = db.session.query(Venue).filter(Venue.id == venue_id).one()
 
-    #TODO write a query that displays upcoming and past shows..
+    list_shows = db.session.query(Show).filter(Show.venue_id == venue_id)
+    past_shows = []
+    upcoming_shows = []
+
+    for show in list_shows:
+        artist = db.session.query(Artist.name, Artist.image_link).filter(Artist.id == show.artist_id).one()
+
+        show_add = {
+            "artist_id": show.artist_id,
+            "artist_name": artist.name,
+            "artist_image_link": artist.image_link,
+            "start_time": show.start_time.strftime('%m/%d/%Y')
+            }
+
+        if (show.start_time < datetime.now()):
+            #print(past_shows, file=sys.stderr)
+            past_shows.append(show_add)
+        else:
+            print(show_add, file=sys.stderr)
+            upcoming_shows.append(show_add)
+
+    data = {
+        "id": venue.id,
+        "name": venue.name,
+        "genres": venue.genres,
+        "city": venue.city,
+        "state": venue.state,
+        "phone": venue.phone,
+        "website": venue.website,
+        "facebook_link": venue.facebook_link,
+        "seeking_talent": venue.seeking_talent,
+        "seeking_description": venue.seeking_description,
+        "image_link": venue.image_link,
+        "past_shows": past_shows,
+        "upcoming_shows": upcoming_shows,
+        "past_shows_count": len(past_shows),
+        "upcoming_shows_count": len(upcoming_shows),
+    }
 
 
 

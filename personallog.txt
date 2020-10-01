@@ -45,10 +45,11 @@
     - edit and delete should be fairly similar query structure. just need to tie in the forms.
     - populate fields will work with "form.name.data = venue.name" etc. 
     - finished update Venue with page button
+
+10/1 - Venue now shows upcoming and past shows.
     
 ODO:
 - Venue Genres display as strings while artist genres don't. 
-- display upcoming and past shows
 - Phone validation doesn't work
 - Edit Artist and Venue functions
  - Delete a Venue and Artist functions
