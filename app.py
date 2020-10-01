@@ -13,6 +13,7 @@ import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -85,11 +86,12 @@ def venues():
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
 
-  #write a search query using ilike() operator. 
+  #write a search query using ilike() operator - Thank you Miguel Grinberg!
   search_term = request.form.get('search_term', '')
   venues = db.session.query(Venue).filter(Venue.name.ilike('%' + search_term + '%')).all()
   data = []
 
+  #loop over venues and display. Similar to show_venue
   for venue in venues:
       num_upcoming_shows = 0
       shows = db.session.query(Show).filter(Show.venue_id == venue.id)
@@ -102,7 +104,7 @@ def search_venues():
         "name": venue.name,
         "num_upcoming_shows": num_upcoming_shows
       })
-
+ #use len() to count
   response={
         "count": len(venues),
         "data": data
@@ -111,6 +113,7 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
+
     #write a query that pulls all venue information by ID
     venue = db.session.query(Venue).filter(Venue.id == venue_id).one()
 
@@ -118,6 +121,7 @@ def show_venue(venue_id):
     past_shows = []
     upcoming_shows = []
 
+    # will need to do an artist query 
     for show in list_shows:
         artist = db.session.query(Artist.name, Artist.image_link).filter(Artist.id == show.artist_id).one()
 
@@ -179,7 +183,8 @@ def create_venue_submission():
         website = request.form.get("website")
         facebook_link = request.form.get("facebook_link")
         genres = request.form.getlist("genres")
-          # Created an if statement to accept True/False (wasn't working otherwise)
+          # Created an if statement to accept True/False (wasn't working otherwise) Validated this through Knowledge as well.
+
         seeking_talent = True if 'seeking_talent' in request.form else False 
         seeking_description = request.form['seeking_description']
         venue = Venue(
@@ -199,12 +204,15 @@ def create_venue_submission():
         db.session.add(venue)
         db.session.commit()
     except:
+
         error = True
         db.session.rollback()
         print(sys.exc_info())
     finally:
+
         db.session.close()
         if error == False:
+
               # on successful db insert, flash success
               flash('Venue ' + request.form['name'] + ' was successfully listed!')
         else:
@@ -300,20 +308,19 @@ def edit_venue_submission(venue_id):
 def delete_venue(venue_id):
     error = False
     try:
-        # get venue, delete it, commit to db
+        # To delete a venue, select venue by ID and db.session.delete
         venue = Venue.query.filter(Venue.id == venue_id).first()
         name = venue.name
 
         db.session.delete(venue)
         db.session.commit()
 
-       
     except:
-        # if error, rollback session and flash error
-        db.session.rollback()
 
+        db.session.rollback()
         flash('An error occurred. Venue ' + name + ' wasn\'t deleted.')
     finally:
+
         db.session.close()
         if error:
           flash('There was an error')
@@ -321,6 +328,7 @@ def delete_venue(venue_id):
           # flash if successful
           flash('Venue was successfully deleted.'
           )
+
     # return success
     return render_template('pages/home.html')
 
@@ -339,7 +347,7 @@ def artists():
 @app.route('/artists/search', methods=['POST'])
 def search_artists():
 
-  #write a search query using ilike() operator. 
+  #same as venue query
     search_term = request.form.get('search_term', '')
     artists = db.session.query(Artist).filter(Artist.name.ilike('%' + search_term + '%')).all()
     data = []
@@ -486,10 +494,6 @@ def edit_artist_submission(artist_id):
             )
 
     return redirect(url_for('show_artist', artist_id=artist_id))
-  
-
-  
-  # return redirect(url_for('show_artist', artist_id=artist_id))
 
 
 #  Create Artist
