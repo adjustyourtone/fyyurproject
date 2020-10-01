@@ -1,13 +1,9 @@
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField, TextAreaField, validators
-from wtforms.validators import DataRequired, AnyOf, URL, Regexp, ValidationError
+from wtforms.validators import DataRequired, AnyOf, URL, ValidationError, Regexp
 import re
 
-# Create a phone validation to remove letters:
-def phone_validation(form, field):
-    if not re.search(r"^[0-9]*$", field.data):
-        raise ValidationError("Phone number should only contain digits.")
 
 class ShowForm(Form):
     artist_id = StringField(
@@ -90,11 +86,13 @@ class VenueForm(Form):
     address = StringField(
         'address', validators=[DataRequired()]
     )
+
+    
     phone = StringField(
-        'phone', validators=[DataRequired(), Regexp("^[0-9]*$", message="Phone number should only contain digits")]
-    )
+            'phone', validators=[Regexp(r'\d{3}-\d{3}-\d{4}', message='Phone number is invalid')] 
+    )        
     image_link = StringField(
-        'image_link'
+            'image_link'
     )
     website = StringField(
     'website', validators=[URL()]
@@ -207,7 +205,7 @@ class ArtistForm(Form):
     )
     phone = StringField(
         # TODO implement validation logic for phone - Done
-        'phone', validators=[phone_validation]
+        'phone', validators=[DataRequired()]
     )
     image_link = StringField(
         'image_link'
