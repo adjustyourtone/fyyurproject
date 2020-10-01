@@ -87,12 +87,12 @@
 <script>
 	const deleteBtn = document.getElementById('delete-button');
 	deleteBtn.onclick = function(evt) {
-		console.log('click');
+		//console.log('click');
 		const venueId = evt.target.dataset['id'];
 		fetch('/venues/' + venueId, {
 			method: 'DELETE'
 		})
-		.then(() => window.location = '/')
+		.then(() => window.location = '/venues')
 	}
 </script>
 {% endblock %}

@@ -149,6 +149,7 @@ def create_venue_submission():
         address = request.form.get("address")
         phone = request.form.get("phone")
         image_link = request.form['image_link']
+        website = request.form.get("website")
         facebook_link = request.form.get("facebook_link")
         genres = request.form.getlist("genres")
           # Created an if statement to accept True/False (wasn't working otherwise)
@@ -161,6 +162,7 @@ def create_venue_submission():
             address=address,
             phone=phone,
             image_link=image_link,
+            website=website,
             genres=genres,
             facebook_link=facebook_link,
             seeking_talent=seeking_talent,
@@ -205,7 +207,7 @@ def edit_venue(venue_id):
     form.genres.data = venue.genres
     form.image_link.data = venue.image_link
     form.facebook_link.data = venue.facebook_link
-    # form.website.data = venue.website
+    form.website.data = venue.website
     form.seeking_talent.data = venue.seeking_talent
     form.seeking_description.data = venue.seeking_description
 
@@ -228,7 +230,7 @@ def edit_venue_submission(venue_id):
     genres = request.form.getlist('genres')
     image_link = request.form['image_link']
     facebook_link = request.form['facebook_link']
-    # website = request.form['website']
+    website = request.form['website']
     seeking_talent = True if 'seeking_talent' in request.form else False
     seeking_description = request.form['seeking_description']
 
@@ -245,7 +247,7 @@ def edit_venue_submission(venue_id):
         venue.genres = genres
         venue.image_link = image_link
         venue.facebook_link = facebook_link
-        # venue.website = website
+        venue.website = website
         venue.seeking_talent = seeking_talent
         venue.seeking_description = seeking_description
 
@@ -270,7 +272,6 @@ def edit_venue_submission(venue_id):
 
 #  Delete Venue
 #  ----------------------------------------------------------------
-
 @app.route('/venues/<venue_id>', methods=['DELETE'])
 def delete_venue(venue_id):
     error = False
@@ -300,7 +301,7 @@ def delete_venue(venue_id):
     return render_template('pages/home.html')
 
   # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-  # clicking that button delete it from the db then redirect the user to the homepage
+  # clicking that button delete it from the db then redirect the user to the homepage - DONE!
 
 
 #  Artists
@@ -421,7 +422,6 @@ def edit_artist_submission(artist_id):
 
 #  Create Artist
 #  ----------------------------------------------------------------
-
 @app.route('/artists/create', methods=['GET'])
 def create_artist_form():
   form = ArtistForm()
@@ -483,7 +483,6 @@ def create_artist_submission():
 
 #  Shows
 #  ----------------------------------------------------------------
-
 @app.route('/shows')
 def shows():
   # displays list of shows at /shows - done

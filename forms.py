@@ -96,6 +96,9 @@ class VenueForm(Form):
     image_link = StringField(
         'image_link'
     )
+    website = StringField(
+    'website', validators=[URL()]
+    )
         # TODO implement enum restriction
     genreTypes = [
         ("Alternative", "Alternative"),
