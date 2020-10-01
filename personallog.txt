@@ -51,6 +51,3 @@
 ODO:
 - Venue Genres display as strings while artist genres don't. 
 - Phone validation doesn't work
-- Edit Artist and Venue functions
- - Delete a Venue and Artist functions
-  - Venue Website missing from DB AND FORMS!!! NOOOOO

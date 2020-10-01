@@ -1,0 +1,7 @@
+There were a few quirks with this project that I was not able to figure out or fix and they seemed consistent with many's experience and also no answers provided to how to rectify. To the best of my ability I went through the code and was not able to figure these out.
+
+1) DB records for 'Genres' are exact through Artists and Venues, however, the genres for "Venue" renders as a string while Artists renders as complete word blocks. All code is essentially identical, minus the required DB fields. 
+
+2) phone validation does not work. I tried a few smaller methods like Regexp and even created a form_on_submit function, but nothing worked. I could not find any solutions through "knowledge" that either proposed a solution or solved my issue. 
+
+3) The Delete function was installed for Venues only. What I found was that to if a venue had existing shows you could not delete. I also could not get the flash to work properly, so I redirected the user to a 'venue page' instead. I tried!
